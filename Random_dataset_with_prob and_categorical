@@ -1,0 +1,76 @@
+# load packages and start to create your random dataset
+import random
+import numpy as np
+import pandas as pd
+from faker.providers.person.en import Provider
+
+import pandas as pd
+import numpy as np
+from pydbgen import pydbgen
+
+
+# instanciate the faker
+faker = pydbgen.pydb()
+
+def genEducation(size = 1, levels = ['High school', 'Bachelors', 'Masters', 'PhD'], prob = [0.45, 0.35, 0.18, 0.02]):
+    arr = np.random.choice(levels, size = size, p = prob)              # decide levels based on input probabilities
+    return (arr)
+
+
+def genvar1_YN(size = 1, levels = ['iyi', 'orta', 'kötü'], prob = [0.45,0.20, 0.35]):
+    arr = np.random.choice(levels, size = size, p = prob)              # decide levels based on input probabilities
+    return (arr)
+
+def genvar2(size = 1, levels = ['iyi', 'orta', 'kötü'], prob = [0.45,0.20, 0.35]):
+    arr = np.random.choice(levels, size = size, p = prob)              # decide levels based on input probabilities
+    return (arr)
+
+def genvar3(size = 1, levels = ['iyi', 'orta', 'kötü'], prob = [0.45,0.20, 0.35]):
+    arr = np.random.choice(levels, size = size, p = prob)              # decide levels based on input probabilities
+    return (arr)
+
+def genGender(size = 1, levels = ['Female', 'Male'], prob = [0.40, 0.60]):
+    arr = np.random.choice(levels, size = size, p = prob)              # decide levels based on input probabilities
+    return (arr)
+
+def genStratum(size = 1, levels = ['Anatolia', 'Aegean', 'Mediterranean','South-East','Istanbul'], prob = [0.20, 0.20, 0.20, 0.20, 0.20]):
+    arr = np.random.choice(levels, size = size, p = prob)              # decide levels based on input probabilities
+    return (arr)
+
+def genvarcategoric(size = 1, levels = ['ESSN beneficiary', 'Non-beneficiary'], prob = [0.70, 0.30]):
+    arr = np.random.choice(levels, size = size, p = prob)              # decide levels based on input probabilities
+    return (arr)
+
+def genTotalIncome(size = 1, m = 690, std = 40):
+    arr = np.random.normal(m, std, size).astype(int)                   # generate random integers
+    arr = np.clip(arr, 300, 850)                                       # clip respecting boundaries
+    return (arr)
+def genTotalDebt(size = 1, l = 2, factor = 1000):
+    arr = np.random.poisson(l, size)                                   # generate numbers from a poisson distribution
+    arr = arr * np.random.uniform(low = 0.0, high = 1.0, size = size)  # add some noise
+    arr = arr * factor                                                 # increase the scale by a factor
+    arr = np.around(arr, 2)                                            # round it to 2 decimal places
+    return (arr)
+
+def genDataset(size = 1000):
+    data = {'Gender': genGender(size),
+            'var1': genvar1(size),
+            'TotalDebt': genTotalDebt(size),
+            'TotalIncome': genTotalIncome(size),
+            'varcategoric':genvarcategoric(size),
+            'Stratum': genStratum(size),
+            'var2':genvar2(size),
+            'var3':genvar3(size),
+            'var4':genvar4(size)
+            }
+    return (pd.DataFrame(data))
+
+# generate the fake data and save the csv and excel files
+df = genDataset()
+
+df["child"] = random.randint(10, size=1000)
+df["adult"] = random.randint(10, size=1000)
+df["elderly"] = random.randint(10, size=1000)
+df["hhsize"] = child+adult+elderly
+# here is tha dataframe
+df
